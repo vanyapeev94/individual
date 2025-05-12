@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper"></div>
+    <style>
+        .wrapper{
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+    <script>
+        class Square {
+            constructor(obj){
+                this.square = document.createElement(obj.tag || 'div');
+                document.querySelector('.wrapper').append(this.square);
+                this.square.classList.add(obj.class || 'standart');
+                
+                this.square.style.width      = obj.width || '250px';
+                this.square.style.height     = obj.height || '250px';
+                this.square.style.border     = obj.border;
+                this.square.style.background = obj.bg;
+                this.square.style.display = obj.display || 'flex';
+                this.square.style.alignItems = obj.items;
+                this.square.style.justifyContent = obj.content;
+                this.square.style.textAlign = obj.text;
+                let i = localStorage.getItem(obj.localSt) || 0;
+                this.square.onclick = ()=> {
+                    this.square.textContent = obj.textClick +  (++i);
+                    localStorage.setItem(obj.localSt, i);
+                }
+            }
+        };
+        class Circle extends Square{
+            constructor(obj){
+                super(obj);
+                this.square.style.borderRadius = obj.radius;
+                this.square.textContent = new Date().toLocaleDateString();
+            }
+        };
+        new Square ({
+            items:'center',
+            content:'center',
+            text:'center',
+            border: '2px solid #256b34',
+            textClick: 'Кликнуто по квадрату ',
+            bg:'#4f67dd',
+            localSt:'clickAmountSquare',
+        });
+        new Circle({
+            tag: 'div',
+            items:'center',
+            content:'center',
+            text:'center',
+            class:'circle',
+            border: '2px solid #256b34',
+            radius: '50%',
+            textClick: 'Кликнуто по кругу ',
+            bg:'#d5e560',
+            localSt:'clickAmountCircle',
+        })
+    </script>
+</body>
+</html>
