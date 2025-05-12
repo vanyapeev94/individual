@@ -19,5 +19,53 @@
     </style>
     <input type="text">
     <button>Кнопка</button>
+    <script>
+        let request = async function(url){
+            if(url){
+                let  data = await fetch(url);
+                return data;
+            }
+        }
+
+        request('https://api.thecatapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=2')
+        .then(e => {
+            if(e.status == 200){
+                return e.json()
+            }
+        })
+        .then(e => {
+            e.forEach(function(item){
+                let img = addImg('img',item.url)
+                let span = addImg('span',item.id)
+                
+                let div = document.createElement('div');
+                div.append(img.elem)
+                div.append(span.elem)
+                document.body.append(div)
+            })
+            
+        }).catch(function(){
+            console.log('ошибка')
+        });
+
+        class createTag{
+            constructor(tagName = 'div',value = ''){
+                this.elem = document.createElement(tagName);
+                if(tagName == 'img'){
+                    this.elem.src = value;
+                }
+                if(tagName == 'span'){
+                    this.elem.textContent = value;
+                }
+                this.elem.style.width = '200px';
+            }
+        }
+
+        function addImg(tagname,value){
+            let elem = new createTag(tagname,value);
+            return elem;
+        }
+
+    </script>
 </body>
 </html>
